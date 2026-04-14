@@ -1,0 +1,845 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>Gestión Estratégica - Henry Felipe</title>
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700;800&family=Montserrat:wght@600;700;800;900&family=Playball&display=swap" rel="stylesheet">
+  <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.2/css/all.min.css">
+  <style>
+    :root {
+      --prm-blue: #003876;
+      --prm-blue-2: #0b5aa6;
+      --prm-cyan: #00d4ff;
+      --prm-gold: #cfa052;
+      --prm-white: #ffffff;
+      --dark-1: #000b18;
+      --dark-2: #00142e;
+      --panel-bg: rgba(0, 26, 58, 0.78);
+      --border-cyan: rgba(0, 212, 255, 0.24);
+    }
+
+    * { box-sizing: border-box; margin: 0; padding: 0; }
+
+    html, body {
+      min-height: 100%;
+      width: 100%;
+      background: linear-gradient(135deg, #003876 0%, #0b4f92 58%, #5d7d97 100%);
+      color: var(--prm-white);
+      font-family: 'Inter', sans-serif;
+    }
+
+    body {
+      overflow: auto;
+    }
+
+    .page-shell {
+      width: 100%;
+      min-height: 100vh;
+      padding: 42px 28px 56px;
+    }
+
+    .web-page {
+      max-width: 1700px;
+      margin: 0 auto;
+    }
+
+    .slide-panel {
+      position: relative;
+      background: radial-gradient(circle at bottom right, rgba(207, 160, 82, 0.14), transparent 28%), linear-gradient(90deg, #02142d 0%, #001224 45%, #000b18 100%);
+      border-radius: 10px;
+      overflow: hidden;
+      border: 1px solid rgba(255,255,255,0.05);
+      box-shadow: 0 20px 70px rgba(0,0,0,0.28);
+      min-height: 1120px;
+    }
+
+    .bg-grid {
+      position: absolute;
+      inset: 0;
+      background-image:
+        linear-gradient(rgba(0, 212, 255, 0.05) 1px, transparent 1px),
+        linear-gradient(90deg, rgba(0, 212, 255, 0.05) 1px, transparent 1px);
+      background-size: 72px 72px;
+      pointer-events: none;
+      z-index: 1;
+    }
+
+    .main-layout {
+      position: relative;
+      z-index: 2;
+      display: grid;
+      grid-template-columns: minmax(0, 1fr) 450px;
+      grid-template-areas:
+        "header header"
+        "left right";
+      gap: 28px 34px;
+      padding: 54px 56px 74px;
+      align-items: start;
+    }
+
+    header {
+      grid-area: header;
+      width: 100%;
+      display: flex;
+      align-items: center;
+      gap: 28px;
+      padding: 18px 28px;
+      border-left: 4px solid var(--prm-cyan);
+      border-radius: 16px;
+      background: linear-gradient(90deg, rgba(0, 74, 142, 0.55) 0%, rgba(0, 44, 95, 0.28) 60%, rgba(0, 14, 28, 0.05) 100%);
+      box-shadow: inset 0 0 24px rgba(0, 212, 255, 0.05);
+      min-height: 192px;
+    }
+
+    .logo-container {
+      width: 210px;
+      height: 210px;
+      border-radius: 50%;
+      flex-shrink: 0;
+      position: relative;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      overflow: hidden;
+      box-shadow: 0 0 30px rgba(0, 212, 255, 0.18);
+      background: rgba(255,255,255,0.02);
+    }
+
+    .logo-container.secondary-logo {
+      margin-left: auto;
+      width: 250px;
+      height: 130px;
+      border-radius: 14px;
+      overflow: hidden;
+      background: rgba(255,255,255,0.02);
+      box-shadow: 0 0 18px rgba(0, 212, 255, 0.10);
+      padding: 8px;
+    }
+
+    .logo-container.secondary-logo::after {
+      inset: 0;
+      border-radius: 14px;
+      border: 1px solid rgba(0, 212, 255, 0.22);
+    }
+
+    .logo-container.secondary-logo img {
+      width: 100%;
+      height: 100%;
+      object-fit: contain;
+      object-position: center;
+      padding: 0;
+      background: transparent;
+    }
+
+    .logo-container::after {
+      content: '';
+      position: absolute;
+      inset: 2px;
+      border-radius: 50%;
+      border: 2px solid rgba(0, 212, 255, 0.28);
+      pointer-events: none;
+    }
+
+    .logo-container img {
+      width: 100%;
+      height: 100%;
+      object-fit: contain;
+      display: block;
+    }
+
+    .placeholder {
+      display: grid;
+      place-items: center;
+      width: 100%;
+      height: 100%;
+      text-align: center;
+      color: rgba(255,255,255,0.35);
+      font-weight: 700;
+      padding: 12px;
+    }
+
+    .titles {
+      min-width: 0;
+      flex: 1;
+    }
+
+    .titles h1 {
+      font-family: 'Montserrat', sans-serif;
+      font-size: 66px;
+      font-weight: 900;
+      line-height: 1.02;
+      letter-spacing: 1px;
+      text-transform: uppercase;
+      margin-bottom: 10px;
+    }
+
+    .titles h2 {
+      font-family: 'Montserrat', sans-serif;
+      font-size: 56px;
+      font-weight: 700;
+      line-height: 1.03;
+      letter-spacing: 0.2px;
+      color: var(--prm-cyan);
+      margin-bottom: 14px;
+    }
+
+    .slogans {
+      display: flex;
+      flex-wrap: wrap;
+      gap: 22px;
+      align-items: center;
+      color: #b9d2eb;
+      font-size: 25px;
+      font-weight: 600;
+    }
+
+    .slogan-item {
+      display: inline-flex;
+      align-items: center;
+      gap: 10px;
+    }
+
+    .slogan-item i {
+      color: var(--prm-gold);
+      font-size: 22px;
+    }
+
+    .left-column {
+      grid-area: left;
+      min-width: 0;
+      overflow: visible;
+    }
+
+    .roadmap-container {
+      position: relative;
+      display: flex;
+      flex-direction: column;
+      gap: 28px;
+      padding-left: 62px;
+      padding-top: 8px;
+      overflow: visible;
+    }
+
+    .roadmap-container::before {
+      content: '';
+      position: absolute;
+      left: 18px;
+      top: 0;
+      bottom: 0;
+      width: 5px;
+      border-radius: 999px;
+      background: linear-gradient(to bottom, var(--prm-cyan), var(--prm-gold), var(--prm-cyan));
+      box-shadow: 0 0 18px rgba(0, 212, 255, 0.45);
+    }
+
+    .proposal-node {
+      position: relative;
+      min-height: 200px;
+      padding: 32px 36px;
+      border-radius: 20px;
+      background: var(--panel-bg);
+      border: 1px solid var(--border-cyan);
+      display: flex;
+      align-items: flex-start;
+      gap: 24px;
+      box-shadow: inset 0 0 18px rgba(0, 212, 255, 0.03);
+      transition: transform 0.28s ease, box-shadow 0.28s ease, border-color 0.28s ease, background 0.28s ease;
+      transform-origin: center center;
+      will-change: transform;
+      cursor: pointer;
+      z-index: 1;
+      touch-action: manipulation;
+    }
+
+    .proposal-node.active {
+      border-color: rgba(207, 160, 82, 0.58);
+    }
+
+    .node-connector {
+      position: absolute;
+      left: -54px;
+      top: 50%;
+      transform: translateY(-50%);
+      width: 24px;
+      height: 24px;
+      border-radius: 50%;
+      background: var(--dark-1);
+      border: 4px solid var(--prm-cyan);
+      box-shadow: 0 0 18px rgba(0, 212, 255, 0.5);
+    }
+
+    .proposal-node:nth-child(even) .node-connector {
+      border-color: var(--prm-gold);
+      box-shadow: 0 0 18px rgba(207, 160, 82, 0.4);
+    }
+
+    .node-number {
+      font-size: 54px;
+      line-height: 1;
+      font-weight: 900;
+      color: rgba(255,255,255,0.16);
+      min-width: 70px;
+      text-align: center;
+    }
+
+    .node-content {
+      min-width: 0;
+    }
+
+    .node-content h3 {
+      font-family: 'Montserrat', sans-serif;
+      font-size: 30px;
+      font-weight: 800;
+      line-height: 1.12;
+      margin-bottom: 12px;
+      display: flex;
+      align-items: center;
+      gap: 14px;
+    }
+
+    .node-content h3 i {
+      color: var(--prm-gold);
+      font-size: 26px;
+      width: 28px;
+      text-align: center;
+      flex-shrink: 0;
+    }
+
+    .proposal-node:nth-child(even) .node-content h3 i {
+      color: var(--prm-cyan);
+    }
+
+    .node-content p {
+      font-size: 14px;
+      line-height: 1.75;
+      color: #c2d5e8;
+      max-width: 97%;
+    }
+
+    .right-column {
+      grid-area: right;
+      width: 450px;
+      display: flex;
+      flex-direction: column;
+      gap: 22px;
+      padding-top: 6px;
+      overflow: visible;
+    }
+
+    .quote-box {
+      padding: 12px 10px 4px;
+      transform: rotate(-4deg);
+      transform-origin: top left;
+    }
+
+    .quote-text {
+      font-size: 29px;
+      line-height: 1.45;
+      font-style: italic;
+      font-weight: 600;
+      color: rgba(255,255,255,0.96);
+      text-shadow: 0 0 18px rgba(0, 212, 255, 0.08);
+      position: relative;
+    }
+
+    .quote-text::before,
+    .quote-text::after {
+      display: none;
+    }
+
+    .quote-author {
+      margin-top: 20px;
+      margin-left: 150px;
+      font-family: 'Playball', cursive;
+      font-size: 46px;
+      line-height: 1;
+      color: var(--prm-cyan);
+      text-shadow: 0 6px 18px rgba(0,0,0,0.28);
+    }
+
+    .profile-panel {
+      background: rgba(0, 15, 35, 0.82);
+      border: 1px solid var(--prm-cyan);
+      border-radius: 24px;
+      overflow: hidden;
+      box-shadow: inset 0 0 40px rgba(0, 212, 255, 0.08);
+      position: relative;
+      transition: transform 0.3s ease, box-shadow 0.3s ease, border-color 0.3s ease;
+      transform-origin: top center;
+      will-change: transform;
+      cursor: pointer;
+      z-index: 2;
+      touch-action: manipulation;
+    }
+
+    .panel-tab {
+      background: var(--prm-cyan);
+      color: var(--dark-1);
+      text-align: center;
+      font-size: 15px;
+      font-weight: 800;
+      letter-spacing: 4px;
+      text-transform: uppercase;
+      padding: 10px 16px;
+    }
+
+    .photo-container {
+      position: relative;
+      height: 500px;
+      background: radial-gradient(circle at center, rgba(84, 165, 231, 0.95), rgba(63, 141, 214, 0.92) 52%, rgba(28, 92, 158, 0.90) 100%);
+      overflow: hidden;
+      border-bottom: 2px solid var(--prm-gold);
+      display: flex;
+      align-items: flex-start;
+      justify-content: center;
+    }
+
+    .photo-container img {
+      width: 100%;
+      height: 100%;
+      object-fit: contain;
+      object-position: center top;
+      display: block;
+      transform: translateY(0);
+    }
+
+    .photo-overlay {
+      position: absolute;
+      inset: 0;
+      background: linear-gradient(transparent 50%, rgba(0, 212, 255, 0.05) 51%);
+      background-size: 100% 4px;
+      pointer-events: none;
+      box-shadow: inset 0 0 36px rgba(0,0,0,0.65);
+    }
+
+    .scanner::before,
+    .scanner::after {
+      content: '';
+      position: absolute;
+      width: 42px;
+      height: 42px;
+      border: 3px solid var(--prm-cyan);
+    }
+
+    .scanner::before {
+      top: 18px;
+      left: 18px;
+      border-right: none;
+      border-bottom: none;
+    }
+
+    .scanner::after {
+      right: 18px;
+      bottom: 18px;
+      border-left: none;
+      border-top: none;
+    }
+
+    .profile-info {
+      padding: 26px 28px 28px;
+      text-align: center;
+    }
+
+    .profile-name {
+      font-family: 'Montserrat', sans-serif;
+      font-size: 34px;
+      font-weight: 900;
+      line-height: 1.04;
+      margin-bottom: 8px;
+      text-transform: uppercase;
+    }
+
+    .profile-role {
+      font-size: 16px;
+      font-weight: 700;
+      letter-spacing: 2px;
+      text-transform: uppercase;
+      color: var(--prm-gold);
+      margin-bottom: 18px;
+    }
+
+    .tech-stats {
+      display: grid;
+      grid-template-columns: repeat(3, 1fr);
+      gap: 10px;
+      background: rgba(0,0,0,0.32);
+      border: 1px solid rgba(255,255,255,0.05);
+      border-radius: 12px;
+      padding: 14px 12px;
+      margin-bottom: 18px;
+    }
+
+    .stat-value {
+      font-size: 24px;
+      line-height: 1.05;
+      color: var(--prm-cyan);
+      font-weight: 900;
+    }
+
+    .stat-label {
+      font-size: 10px;
+      line-height: 1.2;
+      letter-spacing: 1.2px;
+      text-transform: uppercase;
+      color: #9db6ce;
+      margin-top: 4px;
+    }
+
+    .signature-text {
+      font-family: 'Playball', cursive;
+      font-size: 42px;
+      color: var(--prm-white);
+      line-height: 1;
+    }
+
+    .proposal-node:hover,
+    .proposal-node.is-expanded,
+    .proposal-node:focus-visible {
+      transform: scale(1.08);
+      z-index: 30;
+      background: rgba(0, 38, 84, 0.96);
+      border-color: rgba(0, 212, 255, 0.55);
+      box-shadow: 0 18px 48px rgba(0, 0, 0, 0.34), 0 0 0 1px rgba(0, 212, 255, 0.12), inset 0 0 24px rgba(0, 212, 255, 0.06);
+    }
+
+    .proposal-node.active:hover,
+    .proposal-node.active.is-expanded {
+      border-color: rgba(207, 160, 82, 0.8);
+    }
+
+    .proposal-node.is-expanded .node-content p,
+    .proposal-node:hover .node-content p {
+      color: #eef6ff;
+    }
+
+    .profile-panel:hover,
+    .profile-panel.is-expanded,
+    .profile-panel:focus-visible {
+      transform: scale(1.04);
+      z-index: 26;
+      border-color: rgba(0, 212, 255, 0.75);
+      box-shadow: 0 20px 54px rgba(0, 0, 0, 0.36), 0 0 0 1px rgba(0, 212, 255, 0.14), inset 0 0 44px rgba(0, 212, 255, 0.1);
+    }
+
+    .proposal-node:focus-visible,
+    .profile-panel:focus-visible {
+      outline: none;
+    }
+
+    @media (hover: none) {
+      .proposal-node:hover,
+      .profile-panel:hover {
+        transform: none;
+        z-index: 1;
+      }
+    }
+
+    @media (max-width: 1480px) {
+      .titles h1 { font-size: 56px; }
+      .titles h2 { font-size: 48px; }
+      .slogans { font-size: 21px; }
+      .quote-text { font-size: 24px; }
+    }
+
+    @media (max-width: 1280px) {
+      .main-layout {
+        grid-template-columns: 1fr;
+        grid-template-areas:
+          "header"
+          "left"
+          "right";
+      }
+
+      .right-column {
+        width: 100%;
+        max-width: 760px;
+        padding-top: 0;
+      }
+
+      .quote-box {
+        transform: none;
+        padding: 0;
+      }
+
+      .quote-author {
+        margin-left: 0;
+      }
+    }
+
+    @media (max-width: 900px) {
+      .proposal-node.is-expanded,
+      .proposal-node:hover {
+        transform: scale(1.04);
+      }
+
+      .profile-panel.is-expanded,
+      .profile-panel:hover {
+        transform: scale(1.02);
+      }
+
+      .page-shell { padding: 20px 12px 28px; }
+      .main-layout { padding: 24px 20px 34px; gap: 20px; }
+      header {
+        flex-direction: column;
+        align-items: flex-start;
+      }
+      .logo-container {
+        width: 160px;
+        height: 160px;
+      }
+      .logo-container.secondary-logo {
+        margin-left: 0;
+        width: 190px;
+        height: 100px;
+      }
+      .titles h1 { font-size: 40px; }
+      .titles h2 { font-size: 34px; }
+      .slogans { font-size: 17px; gap: 14px; }
+      .roadmap-container { padding-left: 42px; gap: 18px; }
+      .roadmap-container::before { left: 12px; }
+      .proposal-node { min-height: 160px; padding: 22px 20px; gap: 14px; }
+      .node-connector { left: -38px; width: 18px; height: 18px; }
+      .node-number { font-size: 36px; min-width: 48px; }
+      .node-content h3 { font-size: 22px; }
+      .quote-text { font-size: 20px; }
+      .quote-author { font-size: 34px; }
+      .photo-container { height: 340px; }
+    }
+  </style>
+</head>
+<body>
+  <div class="page-shell">
+    <div class="web-page">
+      <div class="slide-panel">
+        <div class="bg-grid"></div>
+
+        <div class="main-layout">
+          <header>
+            <div class="logo-container" id="logo-wrap">
+              <img id="logo-image" alt="Logo principal">
+            </div>
+
+            <div class="titles">
+              <h1 id="main-title"></h1>
+              <h2 id="subtitle"></h2>
+              <div class="slogans" id="slogans"></div>
+            </div>
+
+            <div class="logo-container secondary-logo" id="logo2-wrap">
+              <img id="logo2-image" alt="Logo secundario">
+            </div>
+          </header>
+
+          <div class="left-column">
+            <div class="roadmap-container" id="proposal-list"></div>
+          </div>
+
+          <aside class="right-column">
+            <div class="quote-box">
+              <div class="quote-text" id="quote-text"></div>
+              <div class="quote-author" id="quote-author"></div>
+            </div>
+
+            <div class="profile-panel" id="profile-panel" tabindex="0" role="button" aria-expanded="false">
+              <div class="panel-tab" id="panel-tab"></div>
+              <div class="photo-container" id="photo-wrap">
+                <img id="profile-image" alt="Foto principal">
+                <div class="photo-overlay scanner"></div>
+              </div>
+
+              <div class="profile-info">
+                <div class="profile-name" id="profile-name"></div>
+                <div class="profile-role" id="profile-role"></div>
+                <div class="tech-stats" id="stats"></div>
+                <div class="signature-text" id="signature"></div>
+              </div>
+            </div>
+          </aside>
+        </div>
+      </div>
+    </div>
+  </div>
+
+  <script>
+    const CONTENT = {
+      images: {
+        logo: 'logo1.png',
+        logo2: 'logo2.png',
+        profile: 'foto.png'
+      },
+      text: {
+        title: 'GESTIÓN ESTRATÉGICA',
+        subtitle: 'Secretaría General<br>San Cristóbal',
+        panelTab: 'Organizar para servir, servir para transformar',
+        profileName: 'HENRY FELIPE',
+        profileRole: 'SECRETARIO GENERAL',
+        signature: 'Henry Felipe',
+        quote: '“Una Secretaría General que se organiza, mide y da seguimiento, se convierte en una herramienta real de solución para la gente.”',
+        quoteAuthor: 'Henry Felipe'
+      },
+      slogans: [
+        { icon: 'fa-solid fa-microchip', label: 'MODERNA' },
+        { icon: 'fa-solid fa-server', label: 'CONECTADA' },
+        { icon: 'fa-solid fa-chart-line', label: 'ORIENTADA A RESULTADOS' }
+      ],
+      stats: [
+        { value: '100%', label: 'COMPROMISO' },
+        { value: 'ACTIVO', label: 'ESTATUS' },
+        { value: 'PRM', label: 'VISIÓN' }
+      ],
+      proposals: [
+        {
+          icon: 'fa-solid fa-sitemap',
+          title: 'Institucionalidad & Organización',
+          text: 'Consolidar una Secretaría General más ordenada, cercana, efectiva y con alta capacidad gerencial, apoyada en una estructura funcional clara, roles bien definidos, procesos estandarizados y mecanismos de articulación interna que garanticen una coordinación eficiente entre cada área y cada territorio. Esta visión busca asegurar el cumplimiento de los estatutos del PRM, fortalecer la vida institucional del partido y potenciar a su dirigencia y militancia para aportar soluciones y contribuir activamente en la construcción de políticas públicas con impacto real.',
+          active: true
+        },
+        {
+          icon: 'fa-solid fa-laptop-code',
+          title: 'Transformación Digital',
+          text: 'Impulsar una transformación digital práctica y orientada a resultados, que permita a la Secretaría General escuchar mejor, organizar con más eficiencia, dar seguimiento en tiempo real a los compromisos y convertir la información del territorio en decisiones oportunas. Con tecnología útil, datos centralizados y procesos automatizados, este eje fortalece la coordinación interna, mejora la capacidad de respuesta y construye una gestión moderna, conectada y medible.'
+        },
+        {
+          icon: 'fa-solid fa-shield-halved',
+          title: 'Transparencia & Monitoreo',
+          text: 'Fortalecer una cultura de transparencia, seguimiento y rendición de cuentas, que permita monitorear con claridad el trabajo de las comisiones permanentes y transitorias, dar trazabilidad a las obras y a los compromisos asumidos con el gobierno local y central. Este eje impulsará el uso de la tecnología, la presentación formal de informes, el registro de actas y la implementación de mecanismos de control que permitan supervisar avances, detectar desvíos frente a las metas y corregir de manera oportuna y permanente, garantizando una gestión más visible, responsable y orientada a resultados concretos para la gente.'
+        },
+        {
+          icon: 'fa-solid fa-map-location-dot',
+          title: 'Levantamientos Territoriales',
+          text: 'Establecer un sistema formal de levantamientos territoriales que permita recoger, organizar y analizar información clave sobre las necesidades reales de la gente, la situación de la militancia y las oportunidades de acción en cada comunidad. El propósito es dirigirse al uso de instrumentos, bases de datos y canales de captura de información que conviertan la data del territorio en insumos útiles para la toma de decisiones, el impulso de políticas públicas, la construcción de soluciones concretas y el fortalecimiento del trabajo político y organizativo de la militancia.'
+        },
+        {
+          icon: 'fa-solid fa-users-gear',
+          title: 'Desarrollo & Meritocracia',
+          text: 'Promover una cultura de formación continua, desarrollo de capacidades y meritocracia, que fortalezca las competencias técnicas, organizativas y de liderazgo de la dirigencia y la militancia, garantizando que el acceso a responsabilidades y oportunidades se base en la capacidad, el perfil, el desempeño y el compromiso. Este eje parte de una visión inclusiva: que el partido no abandone a su militancia por carencia de competencias, sino que incentive, acompañe y sostenga su formación como parte del proceso de inclusión y participación en la gestión pública. Así, se busca alinear el crecimiento de las personas con las necesidades institucionales, el trabajo territorial y la construcción de soluciones y políticas públicas con impacto real.'
+        }
+      ]
+    };
+
+    function setHTML(id, value) {
+      const el = document.getElementById(id);
+      if (el) el.innerHTML = value || '';
+    }
+
+    function setImage(imgId, wrapId, src, placeholderText) {
+      const img = document.getElementById(imgId);
+      const wrap = document.getElementById(wrapId);
+      if (!img || !wrap) return;
+
+      if (!src) {
+        img.style.display = 'none';
+        wrap.innerHTML = `<div class="placeholder">${placeholderText}</div><div class="photo-overlay scanner"></div>`;
+        return;
+      }
+
+      img.src = src;
+      img.onerror = () => {
+        if (wrapId === 'photo-wrap') {
+          wrap.innerHTML = `<div class="placeholder">${placeholderText}</div><div class="photo-overlay scanner"></div>`;
+        } else {
+          wrap.innerHTML = `<div class="placeholder">${placeholderText}</div>`;
+        }
+      };
+    }
+
+    function renderSlogans() {
+      const box = document.getElementById('slogans');
+      box.innerHTML = CONTENT.slogans.map(item => `
+        <span class="slogan-item"><i class="${item.icon}"></i><span>${item.label}</span></span>
+      `).join('');
+    }
+
+    function renderStats() {
+      const box = document.getElementById('stats');
+      box.innerHTML = CONTENT.stats.map(item => `
+        <div>
+          <div class="stat-value">${item.value}</div>
+          <div class="stat-label">${item.label}</div>
+        </div>
+      `).join('');
+    }
+
+    function renderProposals() {
+      const box = document.getElementById('proposal-list');
+      box.innerHTML = CONTENT.proposals.map((item, index) => `
+        <div class="proposal-node ${item.active ? 'active' : ''}" tabindex="0" role="button" aria-expanded="false">
+          <div class="node-connector"></div>
+          <div class="node-number">${String(index + 1).padStart(2, '0')}</div>
+          <div class="node-content">
+            <h3><i class="${item.icon}"></i>${item.title}</h3>
+            <p>${item.text}</p>
+          </div>
+        </div>
+      `).join('');
+    }
+
+    function setupInteractivePanels() {
+      const proposals = Array.from(document.querySelectorAll('.proposal-node'));
+      const profilePanel = document.getElementById('profile-panel');
+      const panels = [...proposals, profilePanel].filter(Boolean);
+
+      function collapseAll(except = null) {
+        panels.forEach(panel => {
+          if (panel !== except) {
+            panel.classList.remove('is-expanded');
+            panel.setAttribute('aria-expanded', 'false');
+          }
+        });
+      }
+
+      panels.forEach(panel => {
+        panel.addEventListener('click', event => {
+          event.stopPropagation();
+          const willExpand = !panel.classList.contains('is-expanded');
+          collapseAll(willExpand ? panel : null);
+          panel.classList.toggle('is-expanded', willExpand);
+          panel.setAttribute('aria-expanded', willExpand ? 'true' : 'false');
+        });
+
+        panel.addEventListener('keydown', event => {
+          if (event.key === 'Enter' || event.key === ' ') {
+            event.preventDefault();
+            panel.click();
+          }
+          if (event.key === 'Escape') {
+            panel.classList.remove('is-expanded');
+            panel.setAttribute('aria-expanded', 'false');
+          }
+        });
+      });
+
+      document.addEventListener('click', event => {
+        if (!event.target.closest('.proposal-node, .profile-panel')) {
+          collapseAll();
+        }
+      });
+    }
+
+    function init() {
+      setHTML('main-title', CONTENT.text.title);
+      setHTML('subtitle', CONTENT.text.subtitle);
+      setHTML('panel-tab', CONTENT.text.panelTab);
+      setHTML('profile-name', CONTENT.text.profileName);
+      setHTML('profile-role', CONTENT.text.profileRole);
+      setHTML('signature', CONTENT.text.signature);
+      setHTML('quote-text', CONTENT.text.quote);
+      setHTML('quote-author', CONTENT.text.quoteAuthor);
+
+      setImage('logo-image', 'logo-wrap', CONTENT.images.logo, 'LOGO PRINCIPAL');
+      setImage('logo2-image', 'logo2-wrap', CONTENT.images.logo2, 'LOGO SECUNDARIO');
+      setImage('profile-image', 'photo-wrap', CONTENT.images.profile, 'FOTO PRINCIPAL');
+
+      renderSlogans();
+      renderStats();
+      renderProposals();
+      setupInteractivePanels();
+    }
+
+    init();
+  </script>
+</body>
+</html>
